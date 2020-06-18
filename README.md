@@ -1,6 +1,8 @@
-# Price predictor
+# README template
 
-One Paragraph of project description goes here
+One Paragraph of project description goes here. 
+
+Example: This is a template for all READMEs in Thryft. It is not meant to replace in-depth documentation. Rather, it serves to give the user a  quick 1 page overview about the entire repo. Of particular importance is the Routes section. As the endpoints will likely be used extensively, it is imperative to document the behaviour of the endpoints as accurately as possible. 
 
 ## Getting Started
 
