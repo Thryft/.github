@@ -4,7 +4,7 @@ Prefer only GitHub-flavored Markdown in external text.
 See README.md for details.
 -->
 
-# Google Python Style Guide
+# Thryft Python Style Guide
 
 
 <a id="1-background"></a>
@@ -12,11 +12,10 @@ See README.md for details.
 <a id="background"></a>
 ## 1 Background 
 
-Python is the main dynamic language used at Google. This style guide is a list
-of *dos and don'ts* for Python programs.
+This style guide is adapted from the at [google](http://google.github.io/styleguide/pyguide.html). Over time, we should modify this guide to suit Thryft better. This means adding rules that we find suitable and removing rules that we do not find suitable. 
 
-To help you format code correctly, we've created a [settings file for
-Vim](google_python_style.vim). For Emacs, the default settings should be fine.
+Python is the main dynamic language used for datascience at Thryft. This style guide is a list
+of *dos and don'ts* for Python programs.
 
 Many teams use the [yapf](https://github.com/google/yapf/)
 auto-formatter to avoid arguing over formatting.
