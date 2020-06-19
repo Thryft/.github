@@ -12,13 +12,12 @@ See README.md for details.
 <a id="background"></a>
 ## 1 Background 
 
-This style guide is adapted from the at [google](http://google.github.io/styleguide/pyguide.html). Over time, we should modify this guide to suit Thryft better. This means adding rules that we find suitable and removing rules that we do not find suitable. 
+This style guide is adapted from  [google](http://google.github.io/styleguide/pyguide.html). Over time, we should modify this guide to suit Thryft better. This means adding rules that we find suitable and removing rules that we do not find suitable. 
 
 Python is the main dynamic language used for datascience at Thryft. This style guide is a list
 of *dos and don'ts* for Python programs.
 
-Many teams use the [yapf](https://github.com/google/yapf/)
-auto-formatter to avoid arguing over formatting.
+Use the [yapf](https://github.com/google/yapf/) auto-formatter to avoid arguing over formatting.
 
 
 <a id="s2-python-language-rules"></a>
@@ -26,6 +25,10 @@ auto-formatter to avoid arguing over formatting.
 
 <a id="python-language-rules"></a>
 ## 2 Python Language Rules 
+
+### 2.0 Documentation
+
+Use [pdoc](https://pdoc3.github.io/pdoc/) to auto-generate documentation for your python code.
 
 <a id="s2.1-lint"></a>
 <a id="21-lint"></a>
