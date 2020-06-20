@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: ~/worker_scraper
+    docker:
+      - image: circleci/python:3.7.2  # primary container for the build job
+
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: Install dependencies
+          command:
+            sudo pip install -r requirements.txt
+      - run:
+          name: Run Unit Tests
+          command:
+            python -m unittest
+
+      - add_ssh_keys:
+          fingerprints:
+            - "90:b6:ea:ed:f1:ac:8e:b1:71:15:59:91:fc:c5:fe:7f"
+
+      - run:
+          name: (Single scrape mode) SSH into server and deploy app.
+          command:
+             ssh -o StrictHostKeyChecking=no root@$WORKER_SCRAPER_1_SERVER_ADDRESS "/bin/bash  ./deploy_app_consume_from_queue_mode.sh $GITHUB_USERNAME $GITHUB_PASSWORD"
