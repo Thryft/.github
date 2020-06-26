@@ -27,3 +27,8 @@ As far as possible, we will follow the naming conventions laid out here:
 https://restfulapi.net/resource-naming/
 
 If you see any routes that are not following these conventions, submit an issue.
+
+### RESTful API documentation 
+
+We can potentially document all the routes in this format (?).
+https://github.com/jamescooke/restapidocs/blob/master/examples/login.md
