@@ -62,3 +62,64 @@ to the root folder ``cp <SCRIPT_NAME> ..``
 2. The final command in the config.yml file is essentially asking circleci to ssh into the DO server and call the deploy_app.sh
 script. To ssh in, you will first need to set the SSH keys in the circleci project settings.
 
+## Tricky bits
+
+Additional help for the trickiest bits if you are having problems.
+
+##### 1. Deploying on digitalocean
+
+Arguably the hardest part because there really is no automation here. We will have to write a bash script and push that
+script onto the DO server.This bash script pulls the docker image and deploys it on the DO server. Here is the script in
+its entirety (because its actually not stored anywhere on the cloud and i reallyyy do not want to lose it):
+
+```
+
+set -e
+
+DOCKER_IMAGE=$1
+DOCKER_USERNAME=$2
+DOCKER_PASSWORD=$3
+
+CONAINER_NAME="db_microservice"
+
+# Check for arguments
+if [[ $# -lt 1 ]] ; then
+	echo '[ERROR] You must supply a Docker Image to pull'
+	exit 1
+fi
+
+echo "Deploying db_microservice to Docker Container"
+
+#Check for running container & stop it before starting a new one
+if [ $(docker inspect -f '{{.State.Running}}' $CONAINER_NAME) = "true" ]; then
+	docker stop db_microservice
+docker rm db_microservice
+fi
+
+echo "Starting db_microservice using Docker Image name: $DOCKER_IMAGE"
+docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+docker pull mrnewguy/db_microservice:1.0
+docker run --detach --publish 9000:9000  --name db_microservice $DOCKER_IMAGE
+
+docker ps -a
+
+```
+To call this script, use the following command: `` /bin/bash ./deploy_app.sh $DOCKER_LOGIN/$IMAGE_NAME:$TAG $DOCKER_LOGIN $DOCKER_PWD``. 
+Not that the capitalised words with money signs in front are actually environment variables, which brings me to......
+
+##### 2. Setting up CircleCI
+
+Look, it honestly isnt too hard. There are just a bunch of things to set up and its a pain. The things include: 
+
+- Setting up SSH access. In order to SSH into the DO server and deploy the bash script, we will need to run this command
+in CircleCI's ``config.yml`` file: 
+```
+ssh -o StrictHostKeyChecking=no $DIGITAL_OCEAN_SERVER_USERNAME@$DIGITAL_OCEAN_SERVER_ADDRESS "/bin/bash ./deploy_app.sh $DOCKER_LOGIN/$IMAGE_NAME:$TAG $DOCKER_LOGIN $DOCKER_PWD"
+```
+- For the step above to be successful, we will need to add keys to CircleCI. Just follow the instructions here: https://circleci.com/docs/2.0/add-ssh-key/
+
+A word of caution for the above - when creating a DO server in step 1, remember NOT TO ENABLE PASSWORD ACCESS. This is 
+because CircleCI does not work with password access. We NEED to use SSH keys. Even if we do set up SSH keys after setting
+up a password-accessible server, the following happens (the build gets stuck at this stage because it is waiting for a 
+password to enter the server): 
+![alt text](waiting for password error.png)
