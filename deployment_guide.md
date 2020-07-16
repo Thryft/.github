@@ -70,7 +70,7 @@ Additional help for the trickiest bits if you are having problems.
 
 Arguably the hardest part because there really is no automation here. We will have to write a bash script and push that
 script onto the DO server.This bash script pulls the docker image and deploys it on the DO server. Here is the script in
-its entirety (because its actually not stored anywhere on the cloud and i reallyyy do not want to lose it):
+its entirety.
 
 ```
 
@@ -106,6 +106,8 @@ docker ps -a
 ```
 To call this script, use the following command: `` /bin/bash ./deploy_app.sh $DOCKER_LOGIN/$IMAGE_NAME:$TAG $DOCKER_LOGIN $DOCKER_PWD``. 
 Not that the capitalised words with money signs in front are actually environment variables, which brings me to......
+
+Note that this deployment script might fail on linux if the line seperators are not set to LF (The default option on pycharm is CRLF so the script will likely throw an error.) Simply change the line separators to LF and save the file to fix this.
 
 ##### 2. Setting up CircleCI
 
