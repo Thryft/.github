@@ -62,6 +62,65 @@ to the root folder ``cp <SCRIPT_NAME> ..``
 2. The final command in the config.yml file is essentially asking circleci to ssh into the DO server and call the deploy_app.sh
 script. To ssh in, you will first need to set the SSH keys in the circleci project settings.
 
+#### How to deploy selenium on a remote server?
+For selenium to work, the server needs a working version of a browser. The instructions here are for Google Chrome. 
+Mozilla is another commonly used browser as well. 
+
+Download google chrome into the Downloads folder.
+```
+wget -P ~/Downloads/ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+``` 
+Install google chrome. 
+````
+sudo dpkg -i ~/Downloads/google-chrome*.deb
+````
+If you run into errors while installing google chrome, install all the missing dependencies. Read [here](https://askubuntu.com/questions/220960/cannot-install-google-chrome-how-do-i-fix-it)
+```
+sudo apt-get install -f
+```
+
+Before downloading chromedriver, make sure that the version of chromedriver corresponds to the version of google chrome. 
+To check the version of google chrome: 
+```
+google-chrome --version
+```
+
+Go to the [chromedriver site](https://chromedriver.chromium.org/downloads) to find the correct version of chromedriver. 
+Download chromedriver.
+```
+wget -P ~/Downloads/ https://chromedriver.storage.googleapis.com/92.0.4515.43/chromedriver_linux64.zip
+```
+
+Unzip chromedriver.
+```
+unzip ~/Downloads/chromedriver_linux64.zip
+```
+
+Make chromedriver executable.
+```
+chmod +x ~/chromedriver
+```
+
+Move chromedriver to the /usr/local/share/ folder.
+```
+ sudo mv ~/chromedriver /usr/local/share/chromedriver
+```
+
+Add links to to the chromedriver (I think its the equivalent to adding to path on Windows)
+```
+sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+```
+
+However, using selenium without headless mode just like that will fail because it requires a "display". Hence, we need to install a 
+virtual display driver. 
+
+Install xfvb.
+
+Set path in code to reference where chromedriver is.
+
+
+
 ## Tricky bits
 
 Additional help for the trickiest bits if you are having problems.
